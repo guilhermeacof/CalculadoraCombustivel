@@ -55,6 +55,30 @@
     th {
         background-color: #f2f2f2;
     }
+
+    /* Estilos do ícone de informações */
+    .info-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        font-size: 12px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    .info-tooltip {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        z-index: 1;
+        display: none;
+    }
 </style>
 <script>
 function calcularAbastecimento() {
@@ -98,23 +122,48 @@ function calcularAbastecimento() {
         </tr>
     `;
 }
+function showInfoTooltip(elementId) {
+    var tooltip = document.getElementById("infoTooltip_" + elementId);
+    if (tooltip.style.display === "block") {
+        tooltip.style.display = "none";
+    } else {
+        tooltip.style.display = "block";
+    }
+}
 </script>
 </head>
 <body>
-<div class="container">
-    <h1>Calculadora de Abastecimento</h1>
-    <label for="percentEtanolGasolina">% de mistura Etanol-Gasolina:</label>
-    <input type="number" id="percentEtanolGasolina" value="85">
-    <label for="teorAguaEtanol">Teor de água no etanol (%):</label>
-    <input type="number" id="teorAguaEtanol" value="5">
-    <label for="kmParaAcabar">KM para Acabar o Tanque:</label>
-    <input type="number" id="kmParaAcabar">
-    <label for="consumoKmPorLitro">Consumo de Combustível (km/l):</label>
-    <input type="number" id="consumoKmPorLitro">
-    <label for="capacidadeMaxima">Capacidade Máxima do Tanque (litros):</label>
-    <input type="number" id="capacidadeMaxima" value="60">
-    <button onclick="calcularAbastecimento()">Calcular</button>
-    <table id="tabelaResultado"></table>
-</div>
+    <div class="container">
+        <h1>Calculadora de Abastecimento</h1>
+
+        <label for="percentEtanolGasolina"><span class="info-icon" onclick="showInfoTooltip('percentEtanolGasolina')">i</span> Mistura
+            Etanol-Gasolina (%):
+            <input type="number" id="percentEtanolGasolina" value="85">
+        </label>
+        <div class="info-tooltip" id="infoTooltip_percentEtanolGasolina">
+            Informações sobre a mistura Etanol-Gasolina.
+        </div>
+
+        <label for="teorAguaEtanol"><span class="info-icon" onclick="showInfoTooltip('teorAguaEtanol')">i</span> Teor de
+            água no etanol
+            (%):</label>
+        <input type="number" id="teorAguaEtanol" value="5">
+        <div class="info-tooltip" id="infoTooltip_teorAguaEtanol">
+            Teor provável de Água adicionada ao Etanol. O etanol hidratado combustível possui em sua composição entre
+            95,1% e 96% de etanol.
+        </div>
+
+        <label for="kmParaAcabar">KM para Acabar o Tanque:</label>
+        <input type="number" id="kmParaAcabar">
+
+        <label for="consumoKmPorLitro">Média de consumo de combustível (km/l):</label>
+        <input type="number" id="consumoKmPorLitro">
+
+        <label for="capacidadeMaxima">Capacidade Máxima do Tanque (litros):</label>
+        <input type="number" id="capacidadeMaxima" value="60">
+
+        <button onclick="calcularAbastecimento()">Calcular</button>
+        <table id="tabelaResultado"></table>
+    </div>
 </body>
 </html>
