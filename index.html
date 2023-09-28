@@ -86,7 +86,6 @@ function calcularAbastecimento() {
     var kmParaAcabar = parseFloat(document.getElementById("kmParaAcabar").value);
     var consumoKmPorLitro = parseFloat(document.getElementById("consumoKmPorLitro").value);
     var percentEtanolGasolina = parseFloat(document.getElementById("percentEtanolGasolina").value);
-    var teorAguaEtanol = parseFloat(document.getElementById("teorAguaEtanol").value);
     
     if (isNaN(kmParaAcabar) || isNaN(consumoKmPorLitro)) {
         alert("Por favor, preencha os campos 'KM para Acabar o Tanque' e 'Consumo de Combustível (km/l)'");
@@ -101,11 +100,14 @@ function calcularAbastecimento() {
     
     var litrosEtanol = (combustivelACompletar * percentEtanol) / 100;
     var litrosGasolina = (combustivelACompletar * percentGasolina) / 100;
-    
-    // Considerando o teor de água no etanol
-    var litrosAguaEtanol = litrosEtanol * (teorAguaEtanol / 100);
-    litrosEtanol -= litrosAguaEtanol;
 
+    // Subtrair 30% do resultado de abastecer com gasolina
+    var descontoGasolina = litrosGasolina * 0.3;
+    litrosGasolina -= descontoGasolina;
+
+    // Adicionar o valor do desconto da gasolina ao etanol
+    litrosEtanol += descontoGasolina;
+    
     var tabelaResultado = document.getElementById("tabelaResultado");
     tabelaResultado.innerHTML = `
         <tr>
@@ -142,15 +144,6 @@ function showInfoTooltip(elementId) {
         </label>
         <div class="info-tooltip" id="infoTooltip_percentEtanolGasolina">
             Informações sobre a mistura Etanol-Gasolina. Podendo ser E1 até E100
-        </div>
-
-        <label for="teorAguaEtanol"><span class="info-icon" onclick="showInfoTooltip('teorAguaEtanol')">i</span> Teor de
-            água no etanol
-            (%):</label>
-        <input type="number" id="teorAguaEtanol" value="5">
-        <div class="info-tooltip" id="infoTooltip_teorAguaEtanol">
-            Teor provável de Água adicionada ao Etanol. O etanol hidratado combustível possui em sua composição entre
-            95,1% e 96% de etanol.
         </div>
 
         <label for="kmParaAcabar">KM para Acabar o Tanque:</label>
